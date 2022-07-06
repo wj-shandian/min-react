@@ -1,7 +1,7 @@
 import { ELEMENT_TEXT } from "./constants";
 
 /**
- *
+ *  control+option+D 快速注释
  * 创建元素的方法 （创建虚拟dom的方法）
  * @param {*} type 元素类型 div span p
  * @param {*} config 配置对象 属性key ref
