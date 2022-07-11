@@ -28,8 +28,18 @@ function createElement(type, config, ...children) {
   };
 }
 
+class Component {
+  constructor(props) {
+    this.props = props;
+  }
+  setState(payload) {}
+}
+
+Component.prototype.isReactComponent = {}; // 类组件
+
 const React = {
   createElement,
+  Component,
 };
 
 export default React;

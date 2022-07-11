@@ -164,16 +164,25 @@ function reconcileChildren(currentFiber, newChildren) {
 
     if (sameType) {
       // 说明老fiber节点和新虚拟dom的类型一样，可以复用老的dom节点
-      newFiber = {
-        tag: oldFiber.tag, //TAG_HOST
-        type: oldFiber.type, // div
-        props: newChild.props,
-        stateNode: oldFiber.stateNode, // div还没有创建DOM元素
-        return: currentFiber, //父Fiber return fiber
-        alternate: oldFiber,
-        effectTag: UPDATE, //副作用标识 render我们要会收集副作用 增加 删除 更新
-        nextEffect: null, // effect list 也是一个单链表
-      };
+      if (oldFiber.alternate) {
+        // 说明至少更新一次
+        newFiber = oldFiber.alternate;
+        newFiber.props = newChild.props;
+        newFiber.alternate = oldFiber;
+        newFiber.effectTag = UPDATE;
+        newFiber.nextEffect = null;
+      } else {
+        newFiber = {
+          tag: oldFiber.tag, //TAG_HOST
+          type: oldFiber.type, // div
+          props: newChild.props,
+          stateNode: oldFiber.stateNode, // div还没有创建DOM元素
+          return: currentFiber, //父Fiber return fiber
+          alternate: oldFiber,
+          effectTag: UPDATE, //副作用标识 render我们要会收集副作用 增加 删除 更新
+          nextEffect: null, // effect list 也是一个单链表
+        };
+      }
     } else {
       if (newChild) {
         newFiber = {
